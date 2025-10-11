@@ -72,8 +72,7 @@ export class GameController {
             return;
         }
 
-        this.gameState.isPracticeMode = filters.practiceMode;
-        this.gameState.gameMode = filters.gameMode;
+        this.configureGameSettings(filters);
         this.gameService.startGame(this.filteredCountries);
         this.view.updateStartButton(true);
         this.view.setFiltersEnabled(false);
@@ -130,8 +129,8 @@ export class GameController {
         const currentCountry = this.gameService.getCurrentCountry(this.filteredCountries);
         
         if (currentCountry) {
-            // Pasar gameState a la vista para sincronización
             this.view.gameState = this.gameState;
+            this.view.setCurrentCountry(currentCountry);
             this.view.updateFlagDisplay(currentCountry);
             if (this.gameState.gameMode === 'capitals') {
                 this.view.clearCapitalInfo();
@@ -150,7 +149,6 @@ export class GameController {
 
     filterNumericInput() {
         const input = this.view.elements.maxCountriesInput;
-        // Solo permitir números, eliminar cualquier carácter no numérico
         input.value = input.value.replace(/[^0-9]/g, '');
     }
 
@@ -160,7 +158,6 @@ export class GameController {
         const min = parseInt(input.min, 10);
         let value = parseInt(input.value, 10);
 
-        // Si el campo está vacío, no validar hasta que el usuario termine
         if (input.value === '') {
             return;
         }
@@ -236,19 +233,31 @@ export class GameController {
     }
 
     revealCountryInfo() {
-        if (!this.countryInfoRevealed) {
-            this.countryInfoRevealed = true;
-            if (this.gameState.gameMode === 'flags') {
-                this.view.showCountryInfo();
-            } else if (this.gameState.gameMode === 'capitals') {
-                const currentCountry = this.gameService.getCurrentCountry(this.filteredCountries);
-                if (currentCountry && currentCountry.capital) {
-                    this.view.elements.capitalInfo.textContent = currentCountry.capital;
-                    this.view.showCapitalInfo();
-                }
-            }
-            this.stopCountdown();
+        if (this.countryInfoRevealed) return;
+        
+        this.countryInfoRevealed = true;
+        
+        if (this.gameState.gameMode === 'flags') {
+            this.view.showCountryInfo();
+        } else if (this.gameState.gameMode === 'capitals') {
+            this.displayCapital();
         }
+        
+        this.stopCountdown();
+    }
+
+    displayCapital() {
+        const currentCountry = this.gameService.getCurrentCountry(this.filteredCountries);
+        if (currentCountry?.capital) {
+            this.view.elements.capitalInfo.textContent = currentCountry.capital;
+            this.view.showCapitalInfo();
+        }
+    }
+
+    configureGameSettings(filters) {
+        this.gameState.isPracticeMode = filters.practiceMode;
+        this.gameState.gameMode = filters.gameMode;
+        this.gameState.isRandomMode = filters.randomMode;
     }
 
     resetCountryState() {
@@ -257,8 +266,6 @@ export class GameController {
         this.stopCountdown();
     }
 
-
-
     updateProgress() {
         const total = this.filteredCountries.length;
         const current = this.gameState.currentIndex;
@@ -266,35 +273,24 @@ export class GameController {
     }
 
     handleRevealAction() {
-        if (!this.countryInfoRevealed) {
+        if (this.gameState.isActive && !this.countryInfoRevealed) {
             this.revealCountryInfo();
         }
     }
 
     handleKeyPress(event) {
-        if (event.key === 'Enter' && !this.gameState.isActive) {
-            this.startGame();
-            return;
-        }
+        if (!this.gameState.isActive) return;
         
-        if (this.gameState.isActive) {
-            switch(event.key) {
-                case 'Enter':
-                    this.handleRevealAction();
-                    break;
-                case 'Escape':
-                    this.endGame();
-                    break;
-                case '1':
-                    this.handleTeamScore('red');
-                    break;
-                case '2':
-                    this.handleTeamScore('blue');
-                    break;
-                case '3':
-                    this.handleTeamScore('green');
-                    break;
-            }
+        const keyMap = {
+            'r': 'red',
+            'g': 'green', 
+            'b': 'blue',
+            'y': 'yellow'
+        };
+        
+        const teamColor = keyMap[event.key.toLowerCase()];
+        if (teamColor) {
+            this.handleTeamScore(teamColor);
         }
     }
 }

@@ -18,13 +18,23 @@ export class GameView {
             startButton: this.createStartButton(),
             teamsContainer: this.createTeamsContainer(),
             maxCountriesInput: this.createMaxCountriesInput(),
-            practiceModeCheckbox: this.createPracticeModeCheckbox()
+            practiceModeCheckbox: this.createPracticeModeCheckbox(),
+            randomModeCheckbox: this.createRandomModeCheckbox()
         };
         
-        elements.filterContainer = this.createFilterContainer(elements);
-        elements.settingsButton = this.createSettingsButton();
-        elements.teamCounters = this.createTeamCounters(elements);
-        elements.progressContainer = this.createProgressContainer();
+        if (!elements.flagImage || !elements.countryInfo || !elements.capitalInfo) {
+            throw new Error('Required DOM elements not found');
+        }
+        
+        try {
+            elements.filterContainer = this.createFilterContainer(elements);
+            elements.settingsButton = this.createSettingsButton();
+            elements.teamCounters = this.createTeamCounters(elements);
+            elements.progressContainer = this.createProgressContainer();
+        } catch (error) {
+            console.error('Error initializing UI elements:', error);
+            throw new Error('Failed to initialize game interface');
+        }
         
         return elements;
     }
@@ -39,17 +49,25 @@ export class GameView {
 
     createFilterContainer(elements) {
         const container = document.getElementById('filterContainer');
-        const closeButton = container.querySelector('.filter-close-btn');
-        closeButton.onclick = () => this.closeSettingsPanel();
+        const closeButton = container?.querySelector('.filter-close-btn');
+        if (closeButton) {
+            closeButton.onclick = () => this.closeSettingsPanel();
+        }
         return container;
     }
 
     createSettingsButton() {
         const button = document.getElementById('settingsButton');
+        if (!button) {
+            throw new Error('Settings button element not found');
+        }
+        
         button.title = 'Game Settings';
         
         button.onclick = () => {
             const filterContainer = document.getElementById('filterContainer');
+            if (!filterContainer) return;
+            
             const isVisible = filterContainer.classList.contains('show');
             
             if (isVisible) {
@@ -72,23 +90,35 @@ export class GameView {
         return document.querySelector('.practice-mode-container');
     }
 
+    createRandomModeCheckbox() {
+        return document.querySelector('.random-mode-container');
+    }
+
     createTeamCounters(elements) {
-        const teams = [
-            { id: 'red', name: 'Red Team' },
-            { id: 'blue', name: 'Draw' },
-            { id: 'green', name: 'Green Team' }
+        const teamConfigurations = [
+            { teamId: 'red', teamDisplayName: 'Red Team' },
+            { teamId: 'blue', teamDisplayName: 'Draw' },
+            { teamId: 'green', teamDisplayName: 'Green Team' }
         ];
-        const counters = {};
+        const teamCounters = {};
         
-        teams.forEach(team => {
-            const counter = document.createElement('div');
-            counter.id = `${team.id}Counter`;
-            counter.innerHTML = `<span>${team.name}</span><span>0</span>`;
-            counters[team.id] = counter;
-            elements.teamsContainer.appendChild(counter);
+        teamConfigurations.forEach(teamConfig => {
+            const counterElement = document.createElement('div');
+            counterElement.id = `${teamConfig.teamId}Counter`;
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = teamConfig.teamDisplayName;
+            const scoreSpan = document.createElement('span');
+            scoreSpan.textContent = '0';
+            
+            counterElement.appendChild(nameSpan);
+            counterElement.appendChild(scoreSpan);
+            
+            teamCounters[teamConfig.teamId] = counterElement;
+            elements.teamsContainer.appendChild(counterElement);
         });
         
-        return counters;
+        return teamCounters;
     }
 
     createProgressContainer() {
@@ -138,21 +168,17 @@ export class GameView {
 
     updateFlagDisplay(country) {
         if (country) {
-            // Ocultar elementos antes de cambiar
-            this.elements.countryInfo.style.opacity = '0';
+            this.elements.countryInfo.hidden = true;
+            this.elements.countryInfo.textContent = '';
             this.elements.flagImage.style.opacity = '0';
             
-            // Cambiar contenido después de que termine la transición de opacity
             setTimeout(() => {
                 this.elements.flagImage.src = country.flagUrl;
-                this.elements.countryInfo.textContent = country.displayName;
-                
-                // Mostrar elementos actualizados
                 this.elements.flagImage.style.opacity = '1';
+                
                 if (this.gameState && this.gameState.gameMode === 'capitals') {
-                    this.elements.countryInfo.style.opacity = '1';
-                } else {
-                    this.elements.countryInfo.style.opacity = '0';
+                    this.elements.countryInfo.textContent = country.displayName;
+                    this.elements.countryInfo.hidden = false;
                 }
             }, 300);
         }
@@ -166,7 +192,11 @@ export class GameView {
                 blue: 'Draw',
                 green: 'Green Team'
             };
-            counter.innerHTML = `<span>${teamNames[teamColor]}</span><span>${score}</span>`;
+            const spans = counter.querySelectorAll('span');
+            if (spans.length >= 2) {
+                spans[0].textContent = teamNames[teamColor];
+                spans[1].textContent = score.toString();
+            }
         }
     }
 
@@ -179,6 +209,7 @@ export class GameView {
         this.elements.sovereignFilter.disabled = !enabled;
         this.elements.maxCountriesInput.disabled = !enabled;
         this.elements.practiceModeCheckbox.querySelector('input').disabled = !enabled;
+        this.elements.randomModeCheckbox.querySelector('input').disabled = !enabled;
     }
 
     setSettingsButtonVisible(visible) {
@@ -193,8 +224,12 @@ export class GameView {
         const filterContainer = document.getElementById('filterContainer');
         const settingsButton = document.getElementById('settingsButton');
         
-        filterContainer.classList.remove('show');
-        settingsButton.classList.remove('active');
+        if (filterContainer) {
+            filterContainer.classList.remove('show');
+        }
+        if (settingsButton) {
+            settingsButton.classList.remove('active');
+        }
     }
 
     showGameEndModal(teamScores) {
@@ -251,9 +286,14 @@ export class GameView {
             </div>
         `;
         
-        modal.querySelector('.modal-close-btn').onclick = () => {
-            document.body.removeChild(modal);
-        };
+        const closeButton = modal.querySelector('.modal-close-btn');
+        if (closeButton) {
+            closeButton.onclick = () => {
+                if (modal.parentNode) {
+                    document.body.removeChild(modal);
+                }
+            };
+        }
         
         document.body.appendChild(modal);
     }
@@ -264,16 +304,30 @@ export class GameView {
     }
 
     showCountryInfo() {
-        this.elements.countryInfo.style.opacity = '1';
+        if (this.gameState && this.gameState.gameMode === 'flags') {
+            const currentCountry = this.getCurrentCountry();
+            if (currentCountry) {
+                this.elements.countryInfo.textContent = currentCountry.displayName;
+            }
+            this.elements.countryInfo.hidden = false;
+        }
+    }
+
+    getCurrentCountry() {
+        return this.currentCountry;
+    }
+
+    setCurrentCountry(country) {
+        this.currentCountry = country;
     }
 
     hideCountryInfo() {
-        this.elements.countryInfo.style.opacity = '0';
+        this.elements.countryInfo.hidden = true;
     }
 
     clearCountryInfo() {
         this.elements.countryInfo.textContent = 'Country Name';
-        this.elements.countryInfo.style.opacity = '0';
+        this.elements.countryInfo.hidden = true;
     }
 
     updateProgress(current, total) {
@@ -334,12 +388,16 @@ export class GameView {
     }
 
     getFilterValues() {
+        const practiceInput = this.elements.practiceModeCheckbox?.querySelector('input');
+        const randomInput = this.elements.randomModeCheckbox?.querySelector('input');
+        
         return {
-            continent: this.elements.continentFilter.value,
-            sovereigntyStatus: this.elements.sovereignFilter.value,
-            gameMode: this.elements.gameModeFilter.value,
-            maxCount: parseInt(this.elements.maxCountriesInput.value, 10),
-            practiceMode: this.elements.practiceModeCheckbox.querySelector('input').checked
+            continent: this.elements.continentFilter?.value || 'All',
+            sovereigntyStatus: this.elements.sovereignFilter?.value || 'All',
+            gameMode: this.elements.gameModeFilter?.value || 'flags',
+            maxCount: parseInt(this.elements.maxCountriesInput?.value || '50', 10),
+            practiceMode: practiceInput?.checked || false,
+            randomMode: randomInput?.checked || true
         };
     }
 

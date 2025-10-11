@@ -356,7 +356,8 @@ body {
     appearance: none;
 }
 
-.practice-mode-container {
+.practice-mode-container,
+.random-mode-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -369,18 +370,21 @@ body {
     min-width: 140px;
 }
 
-.practice-mode-container:hover {
+.practice-mode-container:hover,
+.random-mode-container:hover {
     border-color: var(--gradient-start);
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.practice-mode-container input[type="checkbox"] {
+.practice-mode-container input[type="checkbox"],
+.random-mode-container input[type="checkbox"] {
     width: 16px;
     height: 16px;
     accent-color: var(--gradient-start);
 }
 
-.practice-mode-container label {
+.practice-mode-container label,
+.random-mode-container label {
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--primary-text);
@@ -761,7 +765,8 @@ body {
         -moz-appearance: textfield;
     }
     
-    .practice-mode-container {
+    .practice-mode-container,
+    .random-mode-container {
         width: 100%;
         min-width: auto;
         height: 35px;
@@ -769,7 +774,8 @@ body {
         justify-content: center;
     }
     
-    .practice-mode-container label {
+    .practice-mode-container label,
+    .random-mode-container label {
         font-size: 0.8rem;
     }
     
