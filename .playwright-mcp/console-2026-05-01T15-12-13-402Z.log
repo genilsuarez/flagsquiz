@@ -1,6 +1,0 @@
-[     624ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://genilsuarez.github.io/flagsquiz/assets/data/flags.json:0
-[     684ms] [ERROR] Error loading countries: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON @ https://genilsuarez.github.io/flagsquiz/assets/index-Cs_2k5qI.js:0
-[     687ms] [ERROR] Failed to initialize game: Error: Failed to load country data
-    at d.loadCountries (https://genilsuarez.github.io/flagsquiz/assets/index-Cs_2k5qI.js:1:1845)
-    at async p.initializeGame (https://genilsuarez.github.io/flagsquiz/assets/index-Cs_2k5qI.js:29:3219) @ https://genilsuarez.github.io/flagsquiz/assets/index-Cs_2k5qI.js:28
-[     739ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://genilsuarez.github.io/favicon.ico:0

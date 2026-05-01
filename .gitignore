@@ -12,3 +12,6 @@ dist/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Playwright MCP snapshots
+.playwright-mcp/
