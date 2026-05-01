@@ -1,0 +1,108 @@
+name: CD Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      force-deploy:
+        description: 'Force deploy (skip CI check)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Wait for CI Build
+        if: inputs.force-deploy != true
+        run: |
+          COMMIT_SHA="${{ github.sha }}"
+          echo "⏳ Waiting for CI Build ($COMMIT_SHA)..."
+
+          TIMEOUT=600
+          ELAPSED=0
+          INTERVAL=8
+          CI_OK=false
+
+          while [ $ELAPSED -lt $TIMEOUT ]; do
+            BUILD_STATUS=$(gh api repos/${{ github.repository }}/actions/runs \
+              --jq "[.workflow_runs[] | select(.head_sha == \"$COMMIT_SHA\" and .name == \"CI Build\")] | .[0].conclusion" \
+              2>/dev/null | tr -d '"')
+
+            echo "  [${ELAPSED}s] CI Build: ${BUILD_STATUS:-running}"
+
+            if [[ "$BUILD_STATUS" == "success" ]]; then
+              echo "✅ CI Build passed"
+              CI_OK=true
+              break
+            fi
+
+            if [[ "$BUILD_STATUS" == "failure" || "$BUILD_STATUS" == "cancelled" ]]; then
+              echo "❌ CI Build failed — aborting deploy"
+              exit 1
+            fi
+
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+
+          [ "$CI_OK" = "true" ] || { echo "❌ Timeout waiting for CI Build"; exit 1; }
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Get build artifacts
+        run: |
+          COMMIT_SHA="${{ github.sha }}"
+          ARTIFACT_NAME="build-files-$COMMIT_SHA"
+
+          BUILD_RUN_ID=$(gh api repos/${{ github.repository }}/actions/runs \
+            --jq "[.workflow_runs[] | select(.head_sha == \"$COMMIT_SHA\" and .name == \"CI Build\" and .conclusion == \"success\")] | .[0].id" \
+            | tr -d '"')
+
+          [ -z "$BUILD_RUN_ID" ] || [ "$BUILD_RUN_ID" = "null" ] && { echo "❌ No CI Build run found"; exit 1; }
+
+          ARTIFACT_URL=$(gh api repos/${{ github.repository }}/actions/runs/$BUILD_RUN_ID/artifacts \
+            --jq ".artifacts[] | select(.name == \"$ARTIFACT_NAME\") | .archive_download_url")
+
+          [ -z "$ARTIFACT_URL" ] || [ "$ARTIFACT_URL" = "null" ] && { echo "❌ Artifact not found"; exit 1; }
+
+          mkdir -p dist
+          curl -fsSL \
+            -H "Authorization: token ${{ github.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "$ARTIFACT_URL" -o artifact.zip
+
+          unzip -q artifact.zip -d dist/ && rm artifact.zip
+          [ -f "dist/index.html" ] || { echo "❌ Missing index.html in artifact"; exit 1; }
+          echo "✅ Artifacts ready"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Deployment success
+        run: echo "🎉 Deployed to ${{ steps.deployment.outputs.page_url }}"

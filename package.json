@@ -6,8 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:full": "node scripts/development/dev-tools.js full --quiet",
     "preview": "vite preview",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "commit": "node scripts/git/smart-commit.js",
+    "commit:push": "node scripts/git/smart-commit.js --stage-all --push",
+    "gh:status": "node scripts/git/github-actions-status.js status",
+    "gh:watch": "node scripts/git/github-actions-status.js watch-all",
+    "deploy:status": "node scripts/git/validate-pages-deployment.js"
   },
   "keywords": ["flags", "quiz", "game", "geography"],
   "author": "",
