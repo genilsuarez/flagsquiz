@@ -10,7 +10,7 @@ export class CountryService {
 
     async loadCountries() {
         try {
-            const response = await fetch('assets/data/flags.json');
+            const response = await fetch(`${import.meta.env.BASE_URL}assets/data/flags.json`);
             const data = await response.json();
             this.countries = data.map(countryData => {
                 const country = new Country(countryData);
