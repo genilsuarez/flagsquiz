@@ -1,5 +1,4 @@
-/* --- IMPORTACIÓN DE FUENTE --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+/* --- FUENTE: cargada via <link> en index.html para evitar render-blocking @import --- */
 
 /* --- VARIABLES DE COLOR (TEMA AZUL/VERDE) --- */
 :root {
@@ -422,7 +421,7 @@ body {
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     border: none;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
     box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
     white-space: nowrap;
 }
@@ -430,12 +429,11 @@ body {
 #startButton:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(52, 211, 153, 0.4);
-    background: linear-gradient(135deg, #22c55e, #1d4ed8);
 }
 
 #startButton:active {
     transform: translateY(0);
-    transition: all 0.15s ease;
+    transition: transform 0.05s ease;
 }
 
 
@@ -456,14 +454,14 @@ body {
     font-weight: 600;
     font-size: 0.7rem;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
     border: 1px solid rgba(255, 255, 255, 0.2);
     flex: 1;
     text-align: center;
-    backdrop-filter: blur(5px);
     display: flex;
     flex-direction: column;
     line-height: 1.2;
+    will-change: transform;
 }
 
 #redCounter {
@@ -591,7 +589,7 @@ body {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
     box-shadow: 0 4px 15px rgba(52, 211, 153, 0.3);
 }
 
