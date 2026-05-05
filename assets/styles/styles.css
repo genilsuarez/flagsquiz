@@ -24,37 +24,38 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--dark-bg);
+    background-color: #0a0a0d;
     color: var(--primary-text);
     min-height: 100vh;
     padding: 15px;
-    background-image: radial-gradient(circle at top right, rgba(37, 99, 235, 0.2), transparent 40%),
-                      radial-gradient(circle at bottom left, rgba(52, 211, 153, 0.2), transparent 50%);
+    background-image: radial-gradient(circle at top right, rgba(236, 72, 153, 0.06), transparent 40%),
+                      radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.06), transparent 50%);
 }
 
 /* --- CONTENEDOR PRINCIPAL UNIFICADO --- */
 .game-wrapper {
     max-width: 420px;
     margin: 20px auto;
-    background-color: var(--card-bg);
+    background: linear-gradient(180deg, rgba(17, 17, 22, 0.95) 0%, rgba(10, 10, 13, 0.98) 100%);
     border-radius: 20px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    border: 1px solid rgba(236, 72, 153, 0.15);
     animation: fadeIn 0.2s ease-in-out;
     overflow: hidden;
 }
 
 .game-header {
-    padding: 20px 25px 15px 25px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.05), rgba(37, 99, 235, 0.05));
+    padding: 16px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.04), rgba(139, 92, 246, 0.04));
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     padding: 0 25px;
 }
 
@@ -77,19 +78,18 @@ body {
 
 /* --- TÍTULO EN HEADER --- */
 .game-header h1 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+    background: linear-gradient(90deg, #ec4899, #8b5cf6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
     position: relative;
+    letter-spacing: -0.01em;
 }
 
 .game-header h1::before {
-    content: '🌍 ';
-    font-size: 1.2rem;
-    margin-right: 8px;
+    content: '';
 }
 
 /* --- BANDERA --- */
@@ -97,17 +97,21 @@ body {
     width: 100%;
     max-width: none;
     height: 180px;
-    object-fit: cover;
+    object-fit: contain;
     margin-bottom: 15px;
-    border-radius: 12px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
     transition: transform 0.15s ease;
     cursor: pointer;
 }
 
 .flag:hover {
     transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(236, 72, 153, 0.1);
 }
 
 /* --- INFORMACIÓN DEL PAÍS --- */
@@ -115,8 +119,8 @@ body {
     margin: 10px 0;
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--gradient-start);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #ec4899;
+    text-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
     transition: opacity 0.1s ease;
     height: 1.8rem;
     display: flex;
@@ -129,8 +133,8 @@ body {
     margin: 5px 0 15px 0;
     font-size: 1.1rem;
     font-weight: 500;
-    color: var(--gradient-end);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #8b5cf6;
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
     transition: opacity 0.1s ease;
     height: 1.5rem;
     display: flex;
@@ -143,110 +147,136 @@ body {
 /* --- CONTROLES DE FILTROS (OCULTOS POR DEFECTO) --- */
 #filterContainer {
     position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-120vh);
-    background: rgba(30, 41, 59, 0.98);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    padding: 25px 16px 16px 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 1001;
-    transition: transform 0.15s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.15s ease;
-    will-change: transform, opacity;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    min-width: 240px;
-    max-width: 260px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1700;
     opacity: 0;
     visibility: hidden;
+    transition: opacity 0.12s ease, visibility 0.12s ease;
+    padding: 20px;
+}
+
+#filterContainer .filter-panel {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16162a 100%);
+    border-radius: 20px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border: 1px solid rgba(236, 72, 153, 0.25);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(236, 72, 153, 0.08),
+                0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    min-width: 280px;
+    max-width: 320px;
+    width: 100%;
+    position: relative;
+    transform: scale(0.96);
+    transition: transform 0.1s ease;
+}
+
+#filterContainer.show .filter-panel {
+    transform: scale(1);
+}
+
+#filterContainer .filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+#filterContainer .filter-panel-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    background: linear-gradient(90deg, #ec4899, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .filter-close-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 24px;
-    height: 24px;
-    border: none;
-    background: rgba(239, 68, 68, 0.8);
-    color: white;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: bold;
-    transition: all 0.2s ease;
-    order: -1;
-    backdrop-filter: blur(5px);
+    transition: background 0.1s ease, border-color 0.1s ease, color 0.1s ease;
+    flex-shrink: 0;
 }
 
 .filter-close-btn:hover {
-    background: rgba(239, 68, 68, 1);
-    transform: scale(1.1);
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    background: rgba(236, 72, 153, 0.15);
+    border-color: rgba(236, 72, 153, 0.4);
+    color: #fff;
 }
 
 #filterContainer.show {
-    transform: translateX(-50%) translateY(0);
     opacity: 1;
     visibility: visible;
 }
 
 .primary-control {
-    height: 40px;
+    height: 44px;
     font-size: 0.95rem;
     font-weight: 600;
     border-radius: 12px;
-    border: 2px solid var(--gradient-start);
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.15), rgba(37, 99, 235, 0.15));
+    border: 1px solid rgba(236, 72, 153, 0.35);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.12), rgba(139, 92, 246, 0.1));
     color: var(--primary-text);
     text-align: center;
     padding: 0 12px;
-    transition: all 0.15s ease;
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
     appearance: none;
     width: 100%;
-    box-shadow: 0 2px 8px rgba(52, 211, 153, 0.2);
-    margin-bottom: 6px;
+    box-shadow: 0 0 16px rgba(236, 72, 153, 0.08);
 }
 
 .primary-control:hover {
-    border-color: var(--gradient-end);
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(37, 99, 235, 0.2));
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+    border-color: rgba(236, 72, 153, 0.5);
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.15);
 }
 
 .secondary-control {
-    height: 34px;
-    font-size: 0.85rem;
+    height: 40px;
+    font-size: 0.88rem;
     font-weight: 500;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--primary-text);
     text-align: center;
     padding: 0 10px;
-    transition: all 0.15s ease;
+    transition: border-color 0.1s ease, background 0.1s ease;
     appearance: none;
     width: 100%;
-    margin-bottom: 4px;
 }
 
 .secondary-control:hover {
-    border-color: var(--gradient-start);
-    background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-1px);
+    border-color: rgba(236, 72, 153, 0.25);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .secondary-control:focus {
     outline: none;
-    border-color: var(--gradient-start);
-    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.2);
+    border-color: rgba(236, 72, 153, 0.4);
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.08);
 }
 
 .settings-section {
@@ -263,20 +293,6 @@ body {
     padding-bottom: 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
-}
-
-.primary-control {
-    height: 45px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 12px;
-    border: 2px solid var(--gradient-start);
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.1), rgba(37, 99, 235, 0.1));
-    color: var(--primary-text);
-    text-align: center;
-    padding: 0 15px;
-    transition: all 0.15s ease;
-    appearance: none;
 }
 
 .filter-group {
@@ -318,43 +334,44 @@ body {
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: var(--secondary-text);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: transform 0.1s ease, border-color 0.1s ease, background 0.1s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.9rem;
+    backdrop-filter: blur(8px);
 }
 
 #settingsButton:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(236, 72, 153, 0.08);
     transform: translateY(-1px);
-    border-color: var(--gradient-start);
-    color: var(--primary-text);
+    border-color: rgba(236, 72, 153, 0.3);
+    color: #fff;
 }
 
 #settingsButton.active {
-    background: var(--gradient-start);
-    color: var(--dark-bg);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+    background: rgba(236, 72, 153, 0.15);
+    border-color: rgba(236, 72, 153, 0.5);
+    color: #ec4899;
+    box-shadow: 0 0 16px rgba(236, 72, 153, 0.2);
 }
 
 #continentFilter, #sovereignFilter, #maxCountries {
-    height: 40px;
+    height: 38px;
     font-size: 0.85rem;
     font-weight: 500;
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
     color: var(--primary-text);
     text-align: center;
     padding: 0 15px;
     min-width: 110px;
-    transition: all 0.15s ease;
+    transition: border-color 0.1s ease, background 0.1s ease;
     appearance: none;
 }
 
@@ -363,19 +380,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.15);
-    transition: all 0.15s ease;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    transition: border-color 0.1s ease, background 0.1s ease;
     min-width: 140px;
 }
 
 .practice-mode-container:hover,
 .random-mode-container:hover {
-    border-color: var(--gradient-start);
-    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(236, 72, 153, 0.3);
+    background: rgba(236, 72, 153, 0.06);
 }
 
 .practice-mode-container input[type="checkbox"],
@@ -400,35 +417,37 @@ body {
 }
 
 #continentFilter:hover, #sovereignFilter:hover, #maxCountries:hover {
-    border-color: var(--gradient-start);
-    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(236, 72, 153, 0.3);
+    background: rgba(236, 72, 153, 0.05);
 }
 
 #continentFilter:focus, #sovereignFilter:focus, #maxCountries:focus {
     outline: none;
-    border-color: var(--gradient-end);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    border-color: rgba(236, 72, 153, 0.5);
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
 }
 
 /* --- BOTÓN PRINCIPAL INTEGRADO --- */
 #startButton {
     height: 36px;
-    padding: 0 16px;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: var(--dark-bg);
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    border: none;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+    box-shadow: 0 4px 16px rgba(236, 72, 153, 0.2);
     white-space: nowrap;
+    backdrop-filter: blur(8px);
 }
 
 #startButton:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(52, 211, 153, 0.4);
+    box-shadow: 0 6px 24px rgba(236, 72, 153, 0.35);
+    border-color: rgba(236, 72, 153, 0.5);
 }
 
 #startButton:active {
@@ -438,55 +457,107 @@ body {
 
 
 
-/* --- CONTENEDOR DE EQUIPOS EN HEADER --- */
+/* --- CONTENEDOR DE EQUIPOS (DEBAJO DE LA BANDERA) --- */
 #teamsContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 6px;
-    padding: 0 25px;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0;
+    margin-top: 18px;
 }
 
-/* --- CONTADORES DE EQUIPOS --- */
+/* --- CONTADORES DE EQUIPOS (BOTONES DE ACCIÓN) --- */
 #redCounter, #blueCounter, #greenCounter {
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 14px 10px;
+    border-radius: 14px;
     font-weight: 600;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     cursor: pointer;
-    transition: transform 0.08s ease, box-shadow 0.08s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
     flex: 1;
     text-align: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
     line-height: 1.2;
     will-change: transform;
+    min-height: 60px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #redCounter {
-    background: linear-gradient(135deg, var(--team-red), #dc2626);
-    color: white;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(220, 38, 38, 0.08));
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
 }
 
 #blueCounter {
-    background: linear-gradient(135deg, #6b7280, #4b5563);
-    color: white;
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.12), rgba(100, 116, 139, 0.08));
+    border-color: rgba(148, 163, 184, 0.3);
+    color: #cbd5e1;
 }
 
 #greenCounter {
-    background: linear-gradient(135deg, var(--team-green), var(--gradient-start));
-    color: white;
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(16, 185, 129, 0.08));
+    border-color: rgba(52, 211, 153, 0.35);
+    color: #6ee7b7;
 }
 
-#redCounter:hover, #blueCounter:hover, #greenCounter:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.3);
+#redCounter:hover {
+    transform: translateY(-2px);
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2);
 }
 
-#redCounter:active, #blueCounter:active, #greenCounter:active {
-    transform: translateY(-1px);
+#blueCounter:hover {
+    transform: translateY(-2px);
+    border-color: rgba(148, 163, 184, 0.5);
+    box-shadow: 0 6px 20px rgba(148, 163, 184, 0.15);
+}
+
+#greenCounter:hover {
+    transform: translateY(-2px);
+    border-color: rgba(52, 211, 153, 0.6);
+    box-shadow: 0 6px 20px rgba(52, 211, 153, 0.2);
+}
+
+#redCounter:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3) inset;
+}
+
+#blueCounter:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(148, 163, 184, 0.2) inset;
+}
+
+#greenCounter:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(52, 211, 153, 0.3) inset;
+}
+
+/* Score number styling */
+#redCounter span:last-child,
+#blueCounter span:last-child,
+#greenCounter span:last-child {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+#redCounter span:first-child,
+#blueCounter span:first-child,
+#greenCounter span:first-child {
+    font-size: 0.7rem;
+    font-weight: 500;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 /* --- MODAL DE FIN DE JUEGO --- */
@@ -502,16 +573,20 @@ body {
     justify-content: center;
     z-index: 2000;
     animation: fadeIn 0.12s ease;
+    padding: 20px;
 }
 
 .modal-content {
-    background: var(--card-bg);
-    border-radius: 20px;
+    background: linear-gradient(180deg, #111116 0%, #0a0a0d 100%);
+    border-radius: 16px;
     padding: 30px;
     max-width: 400px;
     width: 90%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    max-height: 85vh;
+    overflow-y: auto;
+    border: 1px solid rgba(236, 72, 153, 0.2);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 60px rgba(236, 72, 153, 0.08);
     text-align: center;
     animation: scaleIn 0.12s ease;
 }
@@ -524,7 +599,7 @@ body {
 .modal-header h2 {
     font-size: 1.8rem;
     font-weight: 700;
-    background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+    background: linear-gradient(90deg, #ec4899, #8b5cf6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
@@ -533,14 +608,14 @@ body {
 .winner-announcement {
     margin-bottom: 25px;
     padding: 15px;
-    background: rgba(52, 211, 153, 0.1);
+    background: rgba(236, 72, 153, 0.08);
     border-radius: 12px;
-    border: 1px solid rgba(52, 211, 153, 0.3);
+    border: 1px solid rgba(236, 72, 153, 0.2);
 }
 
 .winner-announcement h3 {
     font-size: 1.3rem;
-    color: var(--gradient-start);
+    color: #ec4899;
     margin: 0;
 }
 
@@ -581,21 +656,22 @@ body {
 }
 
 .modal-close-btn {
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    color: var(--dark-bg);
-    border: none;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.3));
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 12px 30px;
-    border-radius: 25px;
+    border-radius: 999px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
-    box-shadow: 0 4px 15px rgba(52, 211, 153, 0.3);
+    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.2);
 }
 
 .modal-close-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(52, 211, 153, 0.4);
+    box-shadow: 0 8px 30px rgba(236, 72, 153, 0.35);
+    border-color: rgba(236, 72, 153, 0.5);
 }
 
 /* --- BARRA DE PROGRESO Y CRONÓMETRO (SOLO WEB) --- */
@@ -697,7 +773,7 @@ body {
     }
     
     .header-top {
-        margin-bottom: 12px;
+        margin-bottom: 0;
         padding: 0 20px;
     }
     
@@ -741,19 +817,19 @@ body {
     }
     
     #filterContainer {
-        min-width: 260px;
-        padding: 30px 15px 15px 15px;
-        gap: 12px;
-        top: -100vh;
+        padding: 16px;
+    }
+
+    #filterContainer .filter-panel {
+        min-width: auto;
+        max-width: 300px;
+        padding: 24px 18px 18px 18px;
+        gap: 10px;
     }
     
     .secondary-control {
         height: 36px;
         font-size: 0.85rem;
-    }
-    
-    #filterContainer {
-        top: 70px;
     }
     
     #continentFilter, #sovereignFilter, #maxCountries {
@@ -786,22 +862,38 @@ body {
     }
     
     #teamsContainer {
-        gap: 4px;
-        padding: 0 20px;
+        gap: 8px;
+        padding: 0;
+        margin-top: 14px;
     }
     
     #redCounter, #blueCounter, #greenCounter {
-        padding: 4px 6px;
-        font-size: 0.7rem;
-        min-width: 55px;
+        padding: 12px 8px;
+        font-size: 0.8rem;
+        min-height: 54px;
+        min-width: 0;
         flex: 1;
+        border-radius: 12px;
+    }
+
+    #redCounter span:last-child,
+    #blueCounter span:last-child,
+    #greenCounter span:last-child {
+        font-size: 1.1rem;
+    }
+
+    #redCounter span:first-child,
+    #blueCounter span:first-child,
+    #greenCounter span:first-child {
+        font-size: 0.65rem;
     }
     
 
     
     .modal-content {
-        padding: 15px;
+        padding: 20px;
         max-width: 320px;
+        max-height: 80vh;
     }
     
     .modal-header h2 {
@@ -853,10 +945,10 @@ body.landing-mode #filterContainer:not(.show) {
     display: none !important;
 }
 
-/* When shown on landing, center it on the viewport so it doesn't overlap the hero title */
+/* When shown on landing, use the same centered modal approach */
 body.landing-mode #filterContainer.show {
-    top: 50%;
-    transform: translate(-50%, -50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 body.landing-mode .landing-hero {

@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
         statsService,
         onPlay: () => exitLanding(controller),
         onOpenSettings: () => {
-            document.body.classList.remove('landing-mode');
-            document.getElementById('settingsButton')?.click();
+            const filterContainer = document.getElementById('filterContainer');
+            if (filterContainer) {
+                filterContainer.classList.add('show');
+            }
         },
         onHome: () => appMenu.updateMotivationUI()
     });

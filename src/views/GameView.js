@@ -53,13 +53,22 @@ export class GameView {
         if (closeButton) {
             closeButton.onclick = () => this.closeSettingsPanel();
         }
+        // Close on backdrop click (clicking outside the panel)
+        if (container) {
+            container.onclick = (e) => {
+                if (e.target === container) {
+                    this.closeSettingsPanel();
+                }
+            };
+        }
         return container;
     }
 
     createSettingsButton() {
         const button = document.getElementById('settingsButton');
         if (!button) {
-            throw new Error('Settings button element not found');
+            // Settings button removed from game header — settings accessible via drawer
+            return null;
         }
         
         button.title = 'Game Settings';
@@ -210,7 +219,9 @@ export class GameView {
     }
 
     setSettingsButtonVisible(visible) {
-        this.elements.settingsButton.style.display = visible ? 'flex' : 'none';
+        if (this.elements.settingsButton) {
+            this.elements.settingsButton.style.display = visible ? 'flex' : 'none';
+        }
     }
 
     hideSettingsPanel() {
@@ -278,7 +289,7 @@ export class GameView {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="modal-close-btn">Play Again</button>
+                    <button class="modal-close-btn">Cerrar</button>
                 </div>
             </div>
         `;

@@ -48,7 +48,7 @@ const MODAL_TEMPLATES = {
                 <tbody>
                     <tr><td><span class="key">R</span></td><td>Punto para el equipo rojo</td></tr>
                     <tr><td><span class="key">G</span></td><td>Punto para el equipo verde</td></tr>
-                    <tr><td><span class="key">B</span></td><td>Empate (Draw)</td></tr>
+                    <tr><td><span class="key">D</span></td><td>Empate (Draw)</td></tr>
                     <tr><td><span class="key">Click</span></td><td>Sobre la bandera revela el país antes del tiempo</td></tr>
                 </tbody>
             </table>

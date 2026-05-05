@@ -100,6 +100,8 @@ export class GameController {
         this.view.hideProgressContainer();
         this.updateMaxCountriesLimit();
         this.resetTeamScores();
+        // Return to landing after game ends
+        document.body.classList.add('landing-mode');
     }
 
     handleTeamScore(teamColor) {
@@ -280,7 +282,7 @@ export class GameController {
         const keyMap = {
             'r': 'red',
             'g': 'green', 
-            'b': 'blue',
+            'd': 'blue',
             'y': 'yellow'
         };
         
