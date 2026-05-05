@@ -91,6 +91,17 @@ async function main() {
   if (staged.length === 0) {
     if (opts.allowEmpty) {
       logInfo('No staged changes — skipping commit');
+      // Still push if requested (previous commits may need pushing)
+      if (opts.push) {
+        log('Pushing to remote...', colors.cyan);
+        try {
+          execSync('git push', { stdio: 'inherit', cwd: rootDir });
+          logSuccess('Pushed to remote');
+        } catch {
+          logError('Push failed');
+          process.exit(1);
+        }
+      }
       process.exit(0);
     }
     logWarning('No staged changes to commit');
