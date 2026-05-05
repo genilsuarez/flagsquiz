@@ -82,11 +82,7 @@ export class GameController {
         this.startTimer();
         this.view.showProgressContainer();
         this.updateProgress();
-        
-        // Delay before showing first flag
-        setTimeout(() => {
-            this.displayCurrentFlag();
-        }, 500);
+        this.displayCurrentFlag();
     }
 
     endGame() {

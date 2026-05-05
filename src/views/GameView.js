@@ -170,17 +170,14 @@ export class GameView {
         if (country) {
             this.elements.countryInfo.hidden = true;
             this.elements.countryInfo.textContent = '';
-            this.elements.flagImage.style.opacity = '0';
             
-            setTimeout(() => {
-                this.elements.flagImage.src = country.flagUrl;
-                this.elements.flagImage.style.opacity = '1';
-                
-                if (this.gameState && this.gameState.gameMode === 'capitals') {
-                    this.elements.countryInfo.textContent = country.displayName;
-                    this.elements.countryInfo.hidden = false;
-                }
-            }, 300);
+            // Swap flag immediately — CSS handles the crossfade
+            this.elements.flagImage.src = country.flagUrl;
+            
+            if (this.gameState && this.gameState.gameMode === 'capitals') {
+                this.elements.countryInfo.textContent = country.displayName;
+                this.elements.countryInfo.hidden = false;
+            }
         }
     }
 
@@ -403,17 +400,17 @@ export class GameView {
 
     showCapitalInfo() {
         this.elements.capitalInfo.style.opacity = '1';
-        this.elements.capitalInfo.style.display = 'block';
+        this.elements.capitalInfo.style.visibility = 'visible';
     }
 
     hideCapitalInfo() {
         this.elements.capitalInfo.style.opacity = '0';
-        this.elements.capitalInfo.style.display = 'none';
+        this.elements.capitalInfo.style.visibility = 'hidden';
     }
 
     clearCapitalInfo() {
         this.elements.capitalInfo.textContent = 'Capital Name';
         this.elements.capitalInfo.style.opacity = '0';
-        this.elements.capitalInfo.style.display = 'none';
+        this.elements.capitalInfo.style.visibility = 'hidden';
     }
 }

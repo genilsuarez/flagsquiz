@@ -15,13 +15,19 @@
     "gh:watch": "node scripts/git/github-actions-status.js watch-all",
     "deploy:status": "node scripts/git/validate-pages-deployment.js"
   },
-  "keywords": ["flags", "quiz", "game", "geography"],
+  "keywords": [
+    "flags",
+    "quiz",
+    "game",
+    "geography"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.5.0"
   },
   "devDependencies": {
+    "playwright": "^1.59.1",
     "vite": "^5.0.0"
   },
   "engines": {
