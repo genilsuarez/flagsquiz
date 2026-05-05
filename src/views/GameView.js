@@ -3,6 +3,8 @@
  */
 export class GameView {
     constructor() {
+        this._isDesktop = window.innerWidth > 600;
+        window.addEventListener('resize', () => { this._isDesktop = window.innerWidth > 600; }, { passive: true });
         this.elements = this.initializeElements();
         this.setupEventListeners();
     }
@@ -123,6 +125,10 @@ export class GameView {
             counterElement.appendChild(nameSpan);
             counterElement.appendChild(scoreSpan);
             
+            // Cache span references to avoid querySelectorAll on each score update
+            counterElement._nameSpan = nameSpan;
+            counterElement._scoreSpan = scoreSpan;
+            
             teamCounters[teamConfig.teamId] = counterElement;
             elements.teamsContainer.appendChild(counterElement);
         });
@@ -193,16 +199,7 @@ export class GameView {
     updateTeamScore(teamColor, score) {
         const counter = this.elements.teamCounters[teamColor];
         if (counter) {
-            const teamNames = {
-                red: 'Red Team',
-                blue: 'Draw',
-                green: 'Green Team'
-            };
-            const spans = counter.querySelectorAll('span');
-            if (spans.length >= 2) {
-                spans[0].textContent = teamNames[teamColor];
-                spans[1].textContent = score.toString();
-            }
+            counter._scoreSpan.textContent = score;
         }
     }
 
@@ -339,7 +336,7 @@ export class GameView {
     }
 
     updateProgress(current, total) {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             const percentage = total > 0 ? (current / total) * 100 : 0;
             this.elements.progressContainer.progressFill.style.width = `${percentage}%`;
             this.elements.progressContainer.progressText.textContent = `${current} / ${total}`;
@@ -347,7 +344,7 @@ export class GameView {
     }
 
     updateTimer(seconds) {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             const minutes = Math.floor(seconds / 60);
             const secs = seconds % 60;
             this.elements.progressContainer.timer.textContent = 
@@ -356,7 +353,7 @@ export class GameView {
     }
 
     updateCountdown(seconds) {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             this.elements.progressContainer.countdownTimer.textContent = seconds;
             this.elements.progressContainer.countdownTimer.className = 
                 seconds <= 2 ? 'countdown-timer urgent' : 'countdown-timer';
@@ -364,25 +361,25 @@ export class GameView {
     }
 
     hideCountdown() {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             this.elements.progressContainer.countdownTimer.style.opacity = '0';
         }
     }
 
     showCountdown() {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             this.elements.progressContainer.countdownTimer.style.opacity = '1';
         }
     }
 
     showProgressContainer() {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             this.elements.progressContainer.container.style.display = 'block';
         }
     }
 
     hideProgressContainer() {
-        if (window.innerWidth > 600) {
+        if (this._isDesktop) {
             this.elements.progressContainer.container.style.display = 'none';
         }
     }

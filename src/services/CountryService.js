@@ -25,18 +25,22 @@ export class CountryService {
     }
 
     filterCountries(filters = {}) {
-        let filtered = [...this.countries];
+        const hasContinentFilter = filters.continent && filters.continent !== 'All';
+        const hasSovereigntyFilter = filters.sovereigntyStatus && filters.sovereigntyStatus !== 'All';
 
-        if (filters.continent && filters.continent !== 'All') {
-            filtered = filtered.filter(country => country.continent === filters.continent);
-        }
-
-        if (filters.sovereigntyStatus && filters.sovereigntyStatus !== 'All') {
+        let filtered;
+        if (hasContinentFilter || hasSovereigntyFilter) {
             const isSovereign = filters.sovereigntyStatus === 'Yes';
-            filtered = filtered.filter(country => country.isSovereign === isSovereign);
+            filtered = this.countries.filter(country => {
+                if (hasContinentFilter && country.continent !== filters.continent) return false;
+                if (hasSovereigntyFilter && country.isSovereign !== isSovereign) return false;
+                return true;
+            });
+        } else {
+            filtered = this.countries.slice();
         }
 
-        if (filters.maxCount && filters.maxCount > 0) {
+        if (filters.maxCount && filters.maxCount > 0 && filters.maxCount < filtered.length) {
             filtered = filtered.slice(0, filters.maxCount);
         }
 
@@ -53,18 +57,21 @@ export class CountryService {
     }
 
     getMaxCountryCount(filters = {}) {
-        let filtered = [...this.countries];
+        const hasContinentFilter = filters.continent && filters.continent !== 'All';
+        const hasSovereigntyFilter = filters.sovereigntyStatus && filters.sovereigntyStatus !== 'All';
 
-        if (filters.continent && filters.continent !== 'All') {
-            filtered = filtered.filter(country => country.continent === filters.continent);
+        if (!hasContinentFilter && !hasSovereigntyFilter) {
+            return this.countries.length;
         }
 
-        if (filters.sovereigntyStatus && filters.sovereigntyStatus !== 'All') {
-            const isSovereign = filters.sovereigntyStatus === 'Yes';
-            filtered = filtered.filter(country => country.isSovereign === isSovereign);
+        const isSovereign = filters.sovereigntyStatus === 'Yes';
+        let count = 0;
+        for (let i = 0, len = this.countries.length; i < len; i++) {
+            const country = this.countries[i];
+            if (hasContinentFilter && country.continent !== filters.continent) continue;
+            if (hasSovereigntyFilter && country.isSovereign !== isSovereign) continue;
+            count++;
         }
-
-        // No aplicar maxCount aquí para obtener el límite real
-        return filtered.length;
+        return count;
     }
 }
