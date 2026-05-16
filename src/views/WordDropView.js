@@ -35,11 +35,16 @@ export class WordDropView {
         this.scoreDisplay.className = 'word-drop-score';
         this.scoreDisplay.innerHTML = '<span class="wd-score-label">Puntos</span><span class="wd-score-value">0</span>';
 
+        this.difficultyBadge = document.createElement('div');
+        this.difficultyBadge.className = 'word-drop-difficulty-badge';
+        this.difficultyBadge.textContent = '🟢 Fácil';
+
         this.livesDisplay = document.createElement('div');
         this.livesDisplay.className = 'word-drop-lives';
         this.livesDisplay.innerHTML = '<span class="wd-lives-hearts">♥♥♥</span>';
 
         topBar.appendChild(this.scoreDisplay);
+        topBar.appendChild(this.difficultyBadge);
         topBar.appendChild(this.livesDisplay);
 
         // Flag hint (optional)
@@ -287,6 +292,24 @@ export class WordDropView {
      */
     setLivesVisible(visible) {
         this.livesDisplay.style.display = visible ? 'flex' : 'none';
+    }
+
+    /**
+     * Updates the difficulty badge display.
+     * @param {string} difficulty - 'easy' or 'hard'
+     */
+    setDifficulty(difficulty) {
+        if (this.difficultyBadge) {
+            if (difficulty === 'hard') {
+                this.difficultyBadge.textContent = '🔴 Difícil';
+                this.difficultyBadge.classList.add('difficulty-hard');
+                this.difficultyBadge.classList.remove('difficulty-easy');
+            } else {
+                this.difficultyBadge.textContent = '🟢 Fácil';
+                this.difficultyBadge.classList.add('difficulty-easy');
+                this.difficultyBadge.classList.remove('difficulty-hard');
+            }
+        }
     }
 
     /**

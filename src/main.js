@@ -56,15 +56,19 @@ function startWordDropGame(controller, wordDropController) {
 
     const categoryEl = document.getElementById('wordDropCategory');
     const speedEl = document.getElementById('wordDropSpeed');
-    const showFlagEl = document.getElementById('wordDropShowFlag');
+    const difficultyEl = document.getElementById('wordDropDifficulty');
     const survivalEl = document.getElementById('wordDropSurvival');
+
+    const difficulty = difficultyEl?.value || 'easy';
+    const showFlag = difficulty === 'easy';
 
     wordDropController.start({
         countries: [...countries],
         category: categoryEl?.value || 'country',
         speed: speedEl?.value || 'normal',
-        showFlag: showFlagEl?.checked !== false,
-        survival: survivalEl?.checked !== false
+        showFlag,
+        survival: survivalEl?.checked !== false,
+        difficulty
     });
 }
 

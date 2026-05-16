@@ -224,6 +224,10 @@
             
             <!-- Word Drop specific options (shown only when wordDrop is selected) -->
             <div id="wordDropOptions" class="word-drop-options" hidden>
+                <select id="wordDropDifficulty" class="primary-control">
+                    <option value="easy" selected>🟢 Fácil — Con bandera</option>
+                    <option value="hard">🔴 Difícil — Sin bandera</option>
+                </select>
                 <select id="wordDropCategory" class="secondary-control">
                     <option value="country" selected>🌍 Países</option>
                     <option value="capital">🏛️ Capitales</option>
@@ -233,10 +237,6 @@
                     <option value="normal" selected>⚡ Normal (0.8s)</option>
                     <option value="fast">🚀 Rápido (0.5s)</option>
                 </select>
-                <div class="practice-mode-container">
-                    <input id="wordDropShowFlag" type="checkbox" checked>
-                    <label for="wordDropShowFlag">Mostrar bandera</label>
-                </div>
                 <div class="practice-mode-container">
                     <input id="wordDropSurvival" type="checkbox" checked>
                     <label for="wordDropSurvival">Modo supervivencia</label>

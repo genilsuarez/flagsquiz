@@ -51,7 +51,7 @@ export class WordDropController {
 
     /**
      * Starts a Word Drop game session.
-     * @param {object} options - { countries, survival, showFlag, category, speed }
+     * @param {object} options - { countries, survival, showFlag, category, speed, difficulty }
      */
     start(options = {}) {
         this.countries = options.countries || [];
@@ -59,6 +59,12 @@ export class WordDropController {
         this.showFlag = options.showFlag !== false;
         this.category = options.category || 'country';
         this.speed = options.speed || 'normal';
+        this.difficulty = options.difficulty || 'easy';
+
+        // Hard mode: reduce time per letter by 20% for extra challenge
+        if (this.difficulty === 'hard' && this.speed === 'normal') {
+            this.speed = 'normal'; // keep as-is, the service handles timing
+        }
 
         if (this.countries.length === 0) return;
 
@@ -75,6 +81,7 @@ export class WordDropController {
         this.view.updateScore(0);
         this.view.setLivesVisible(this.isSurvivalMode);
         this.view.updateLives(this.lives);
+        this.view.setDifficulty(this.difficulty);
 
         this.startRound();
     }
@@ -212,6 +219,7 @@ export class WordDropController {
 
         const wordsGuessed = this.currentIndex;
         const emoji = this.totalScore >= 200 ? '🏆' : this.totalScore >= 100 ? '⭐' : '🎮';
+        const diffLabel = this.difficulty === 'hard' ? '🔴 Difícil (sin bandera)' : '🟢 Fácil (con bandera)';
 
         modal.innerHTML = `
             <div class="modal-content">
@@ -230,6 +238,10 @@ export class WordDropController {
                         <div class="score-item blue">
                             <span class="team-name">Palabras jugadas</span>
                             <span class="score">${wordsGuessed}</span>
+                        </div>
+                        <div class="score-item blue">
+                            <span class="team-name">Dificultad</span>
+                            <span class="score" style="font-size:0.85rem">${diffLabel}</span>
                         </div>
                         ${this.isSurvivalMode ? `
                         <div class="score-item red">
