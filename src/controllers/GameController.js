@@ -65,6 +65,10 @@ export class GameController {
 
     startGame() {
         const filters = this.view.getFilterValues();
+
+        // If Word Drop mode is selected, don't start the standard game
+        if (filters.gameMode === 'wordDrop') return;
+
         this.filteredCountries = this.countryService.filterCountries(filters);
         
         if (this.filteredCountries.length === 0) {

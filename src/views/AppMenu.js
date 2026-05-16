@@ -24,7 +24,7 @@ const MODAL_TEMPLATES = {
             <ol class="howto-steps">
                 <li>
                     <span class="howto-num">1</span>
-                    <div><h4>Elige tu modo</h4><p>Banderas o capitales desde Configuración.</p></div>
+                    <div><h4>Elige tu modo</h4><p>Banderas, capitales o Letras en Caída desde Configuración.</p></div>
                 </li>
                 <li>
                     <span class="howto-num">2</span>
@@ -36,9 +36,14 @@ const MODAL_TEMPLATES = {
                 </li>
                 <li>
                     <span class="howto-num">4</span>
-                    <div><h4>Anota el acierto</h4><p>Toca el equipo ganador (Red, Green o Draw) o usa las teclas R, G, B.</p></div>
+                    <div><h4>Anota el acierto</h4><p>Toca el equipo ganador (Red, Green o Draw) o usa las teclas R, G, D.</p></div>
                 </li>
             </ol>
+            <div class="modal-section" style="margin-top:18px">
+                <h3>✏️ Letras en Caída</h3>
+                <p>Las letras del nombre aparecen una por una. Presiona <strong>¡Ya sé!</strong> (o Espacio) cuando creas saber la respuesta. Mientras menos letras se hayan revelado, más puntos ganas.</p>
+                <p>En modo supervivencia tienes 3 vidas. Si la palabra se completa sin responder, pierdes una vida.</p>
+            </div>
         `
     },
     shortcuts: {

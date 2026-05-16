@@ -1981,3 +1981,310 @@ body.landing-mode .landing-hero {
         transition: none;
     }
 }
+
+
+/* ==================================================
+   WORD DROP MODE
+   ================================================== */
+
+.word-drop-container {
+    padding: 20px 25px 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.word-drop-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.word-drop-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wd-score-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--secondary-text);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.wd-score-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ec4899;
+    text-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+    min-width: 40px;
+}
+
+.word-drop-lives {
+    display: flex;
+    align-items: center;
+}
+
+.wd-lives-hearts {
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    color: #ef4444;
+    text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+    transition: color 0.2s ease;
+}
+
+.wd-lives-hearts.lives-critical {
+    animation: lives-pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes lives-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* Flag hint */
+.word-drop-flag-hint {
+    width: 100%;
+    max-width: 200px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Letter grid */
+.word-drop-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 0;
+    min-height: 60px;
+    transition: transform 0.15s ease;
+}
+
+.word-drop-grid.grid-correct {
+    animation: grid-success 0.5s ease;
+}
+
+.word-drop-grid.grid-wrong {
+    animation: grid-shake 0.4s ease;
+}
+
+@keyframes grid-success {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@keyframes grid-shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+.letter-box {
+    width: 36px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: transparent;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.letter-box.revealed {
+    color: #fff;
+    border-color: rgba(236, 72, 153, 0.5);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(139, 92, 246, 0.15));
+    box-shadow: 0 0 12px rgba(236, 72, 153, 0.2);
+}
+
+.letter-box.revealed-final {
+    border-color: rgba(148, 163, 184, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.6);
+    box-shadow: none;
+}
+
+.letter-box.letter-drop {
+    animation: letter-drop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes letter-drop-in {
+    0% {
+        transform: translateY(-20px) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.word-drop-spacer {
+    width: 16px;
+    height: 44px;
+}
+
+/* Feedback */
+.word-drop-feedback {
+    font-size: 0.95rem;
+    font-weight: 600;
+    min-height: 1.4em;
+    transition: opacity 0.2s ease;
+}
+
+.feedback-correct {
+    color: var(--success-color);
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+}
+
+.feedback-wrong {
+    color: var(--error-color);
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+.feedback-timeout {
+    color: var(--secondary-text);
+}
+
+/* Guess button */
+.word-drop-guess-btn {
+    padding: 14px 40px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.4), rgba(139, 92, 246, 0.4));
+    border: 1.5px solid rgba(236, 72, 153, 0.5);
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+    box-shadow: 0 6px 24px rgba(236, 72, 153, 0.3);
+    backdrop-filter: blur(8px);
+}
+
+.word-drop-guess-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 36px rgba(236, 72, 153, 0.45);
+    border-color: rgba(236, 72, 153, 0.7);
+}
+
+.word-drop-guess-btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+/* Input container */
+.word-drop-input-container {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 320px;
+    animation: hero-fade-up 0.2s ease;
+}
+
+.word-drop-input {
+    flex: 1;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(236, 72, 153, 0.35);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.word-drop-input:focus {
+    border-color: rgba(236, 72, 153, 0.6);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.12);
+}
+
+.word-drop-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.word-drop-submit-btn {
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.25), rgba(16, 185, 129, 0.25));
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.06s ease, box-shadow 0.08s ease;
+}
+
+.word-drop-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
+}
+
+/* Word Drop options in filter panel */
+.word-drop-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .word-drop-container {
+        padding: 16px 16px 20px;
+        gap: 12px;
+    }
+
+    .letter-box {
+        width: 30px;
+        height: 38px;
+        font-size: 1rem;
+        border-radius: 6px;
+    }
+
+    .word-drop-spacer {
+        width: 10px;
+        height: 38px;
+    }
+
+    .word-drop-flag-hint {
+        max-width: 150px;
+        height: 80px;
+    }
+
+    .word-drop-guess-btn {
+        padding: 12px 32px;
+        font-size: 0.95rem;
+    }
+
+    .word-drop-input-container {
+        max-width: 100%;
+    }
+
+    .wd-score-value {
+        font-size: 1.2rem;
+    }
+}
