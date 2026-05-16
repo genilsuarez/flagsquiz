@@ -194,19 +194,18 @@ body {
 }
 
 #filterContainer .filter-panel {
-    background: linear-gradient(180deg, #0c1830 0%, #080f22 100%);
-    border-radius: var(--radius-xl);
-    padding: 20px 18px;
+    background: #111827;
+    border-radius: 16px;
+    padding: 22px 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    gap: 14px;
+    border: 1.5px solid rgba(236, 72, 153, 0.25);
     box-shadow: 
-        0 30px 80px rgba(0, 0, 0, 0.7),
-        0 0 60px rgba(139, 92, 246, 0.06),
-        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-    min-width: 290px;
-    max-width: 350px;
+        0 25px 60px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(236, 72, 153, 0.06);
+    min-width: 280px;
+    max-width: 320px;
     width: 100%;
     position: relative;
     transform: scale(0.94) translateY(10px);
@@ -229,7 +228,7 @@ body {
     font-weight: 700;
     color: #fff;
     margin: 0;
-    background: linear-gradient(90deg, #ec4899, #a855f7);
+    background: linear-gradient(90deg, #f472b6, #c084fc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.01em;
@@ -238,8 +237,8 @@ body {
 .filter-close-btn {
     width: 32px;
     height: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
     color: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     cursor: pointer;
@@ -253,9 +252,9 @@ body {
 }
 
 .filter-close-btn:hover {
-    background: rgba(239, 68, 68, 0.12);
-    border-color: rgba(239, 68, 68, 0.35);
-    color: #fca5a5;
+    background: rgba(236, 72, 153, 0.12);
+    border-color: rgba(236, 72, 153, 0.35);
+    color: #f472b6;
     transform: rotate(90deg);
 }
 
@@ -265,71 +264,113 @@ body {
 }
 
 .primary-control {
-    height: 40px;
-    font-size: 0.88rem;
+    height: 44px;
+    font-size: 0.9rem;
     font-weight: 600;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.08));
+    border-radius: 10px;
+    border: 1.5px solid rgba(236, 72, 153, 0.4);
+    background: rgba(236, 72, 153, 0.08);
     color: var(--primary-text);
     text-align: center;
-    padding: 0 12px;
+    padding: 0 14px;
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     appearance: none;
     width: 100%;
-    box-shadow: 0 2px 12px rgba(139, 92, 246, 0.08);
 }
 
 .primary-control:hover {
-    border-color: rgba(139, 92, 246, 0.5);
-    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+    border-color: rgba(236, 72, 153, 0.6);
+    box-shadow: 0 0 16px rgba(236, 72, 153, 0.12);
 }
 
 .primary-control:focus {
     outline: none;
-    border-color: rgba(139, 92, 246, 0.6);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    border-color: rgba(236, 72, 153, 0.7);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
 }
 
-.secondary-control {
-    height: 34px;
-    font-size: 0.8rem;
+/* --- Unified filter control --- */
+.filter-control {
+    height: 40px;
+    font-size: 0.85rem;
     font-weight: 500;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--primary-text);
     text-align: center;
-    padding: 0 10px;
-    transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+    padding: 0 12px;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
     appearance: none;
     width: 100%;
+    font-family: inherit;
 }
 
-.secondary-control:hover {
-    border-color: rgba(139, 92, 246, 0.2);
-    background: rgba(255, 255, 255, 0.06);
+.filter-control:hover {
+    border-color: rgba(236, 72, 153, 0.3);
+    background: rgba(236, 72, 153, 0.04);
 }
 
-.secondary-control:focus {
+.filter-control:focus {
     outline: none;
-    border-color: rgba(139, 92, 246, 0.4);
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.08);
+    border-color: rgba(236, 72, 153, 0.5);
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.08);
+}
+
+.filter-control option {
+    background: #1e293b;
+    color: #fff;
+}
+
+/* --- Filter row (side by side) --- */
+.filter-row {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-row > * {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- Toggle (checkbox + label) --- */
+.filter-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+    user-select: none;
+}
+
+.filter-toggle:hover {
+    border-color: rgba(236, 72, 153, 0.3);
+    background: rgba(236, 72, 153, 0.04);
+}
+
+.filter-toggle input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #ec4899;
+    cursor: pointer;
+}
+
+.filter-toggle span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--primary-text);
 }
 
 .settings-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(139, 92, 246, 0.02));
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: border-color var(--transition-fast);
-}
-
-.settings-section:hover {
-    border-color: rgba(139, 92, 246, 0.12);
+    gap: 10px;
 }
 
 .section-title {
@@ -346,7 +387,7 @@ body {
 
 .settings-row {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: stretch;
 }
 
@@ -365,7 +406,7 @@ body {
 .filter-label {
     font-size: 0.72rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(244, 114, 182, 0.7);
     text-align: left;
     margin: 0;
     padding-left: 2px;
@@ -442,36 +483,35 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 8px 10px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
-    transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    gap: 8px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
     flex: 1;
     min-width: 0;
     cursor: pointer;
-    height: 34px;
+    height: 40px;
 }
 
 .practice-mode-container:hover,
 .random-mode-container:hover {
-    border-color: rgba(139, 92, 246, 0.25);
-    background: rgba(139, 92, 246, 0.05);
-    transform: translateY(-1px);
+    border-color: rgba(236, 72, 153, 0.3);
+    background: rgba(236, 72, 153, 0.04);
 }
 
 .practice-mode-container input[type="checkbox"],
 .random-mode-container input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
-    accent-color: var(--accent-purple);
+    width: 16px;
+    height: 16px;
+    accent-color: #ec4899;
     cursor: pointer;
 }
 
 .practice-mode-container label,
 .random-mode-container label {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--primary-text);
     cursor: pointer;
@@ -1305,6 +1345,64 @@ body.landing-mode .landing-hero {
     transform: translateX(4px);
 }
 
+/* --- Settings gear button next to CTA --- */
+.landing-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: hero-fade-up 0.3s ease forwards;
+    animation-delay: 160ms;
+}
+
+.landing-actions .landing-cta {
+    opacity: 1;
+    animation: none;
+}
+
+.landing-settings-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.landing-settings-btn svg {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.3s ease;
+}
+
+.landing-settings-btn:hover {
+    border-color: rgba(236, 72, 153, 0.5);
+    background: rgba(236, 72, 153, 0.1);
+    color: #f472b6;
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.2);
+}
+
+.landing-settings-btn:hover svg {
+    transform: rotate(60deg);
+}
+
+.landing-settings-btn:active {
+    transform: scale(0.95);
+}
+
+.landing-settings-btn:focus-visible {
+    outline: 2px solid rgba(236, 72, 153, 0.7);
+    outline-offset: 3px;
+}
+
 /* --- AURORA (bright curved arc inspired by motionsites hero) --- */
 .landing-aurora {
     position: absolute;
@@ -2110,10 +2208,17 @@ body.landing-mode .landing-hero {
 .word-drop-container {
     padding: 20px 25px 25px;
     text-align: center;
-    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
+}
+
+.word-drop-container[hidden] {
+    display: none;
+}
+
+.word-drop-container:not([hidden]) {
+    display: flex;
 }
 
 .word-drop-top-bar {
@@ -2363,12 +2468,16 @@ body.landing-mode .landing-hero {
 
 /* Word Drop options in filter panel */
 .word-drop-options {
-    display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-top: 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    margin-top: 4px;
+}
+
+.word-drop-options[hidden] {
+    display: none;
+}
+
+.word-drop-options:not([hidden]) {
+    display: flex;
 }
 
 /* Responsive */

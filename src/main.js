@@ -78,9 +78,17 @@ function startWordDropGame(controller, wordDropController) {
 function wireLandingHero(controller, wordDropController, appMenu) {
     const body = document.body;
     const cta = document.getElementById('landingCTA');
-    const startButton = document.getElementById('startButton');
+    const settingsBtn = document.getElementById('landingSettingsBtn');
 
     cta?.addEventListener('click', () => exitLanding(controller, wordDropController));
+
+    // Settings gear button opens the config panel directly
+    settingsBtn?.addEventListener('click', () => {
+        const filterContainer = document.getElementById('filterContainer');
+        if (filterContainer) {
+            filterContainer.classList.add('show');
+        }
+    });
 
     // Return to landing when the game end modal's "Play Again" is pressed
     document.addEventListener('click', (event) => {
@@ -130,18 +138,21 @@ function wireWordDropModeToggle() {
 
     if (!gameModeFilter || !wordDropOptions) return;
 
+    // Collect standard filter elements (everything after wordDropOptions)
+    const standardEls = [
+        ...document.querySelectorAll('#filterContainer .filter-row'),
+        document.getElementById('maxCountries')
+    ].filter(el => el && !wordDropOptions.contains(el));
+
     const toggleOptions = () => {
         const isWordDrop = gameModeFilter.value === 'wordDrop';
         wordDropOptions.hidden = !isWordDrop;
 
-        // Hide/show the main settings section (filters + options) based on mode
-        const allSections = document.querySelectorAll('#filterContainer .settings-section');
-        allSections.forEach(section => {
-            if (section === wordDropOptions) return;
-            section.style.display = isWordDrop ? 'none' : '';
+        standardEls.forEach(el => {
+            if (el) el.style.display = isWordDrop ? 'none' : '';
         });
     };
 
     gameModeFilter.addEventListener('change', toggleOptions);
-    toggleOptions(); // Initial state
+    toggleOptions();
 }
