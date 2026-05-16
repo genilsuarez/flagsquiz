@@ -127,10 +127,6 @@ function wireStatsTracking(controller, statsService, appMenu) {
 function wireWordDropModeToggle() {
     const gameModeFilter = document.getElementById('gameModeFilter');
     const wordDropOptions = document.getElementById('wordDropOptions');
-    const standardOptions = [
-        document.getElementById('continentFilter')?.parentElement === document.querySelector('.filter-panel')
-            ? null : null,
-    ];
 
     if (!gameModeFilter || !wordDropOptions) return;
 
@@ -138,17 +134,12 @@ function wireWordDropModeToggle() {
         const isWordDrop = gameModeFilter.value === 'wordDrop';
         wordDropOptions.hidden = !isWordDrop;
 
-        // Hide practice/random mode for Word Drop (they don't apply)
-        const practiceContainer = document.querySelector('.practice-mode-container');
-        const randomContainer = document.querySelector('.random-mode-container');
-
-        // Only hide the main practice/random containers (not the ones inside wordDropOptions)
-        if (practiceContainer && !wordDropOptions.contains(practiceContainer)) {
-            practiceContainer.style.display = isWordDrop ? 'none' : '';
-        }
-        if (randomContainer) {
-            randomContainer.style.display = isWordDrop ? 'none' : '';
-        }
+        // Hide/show the main settings section (filters + options) based on mode
+        const allSections = document.querySelectorAll('#filterContainer .settings-section');
+        allSections.forEach(section => {
+            if (section === wordDropOptions) return;
+            section.style.display = isWordDrop ? 'none' : '';
+        });
     };
 
     gameModeFilter.addEventListener('change', toggleOptions);

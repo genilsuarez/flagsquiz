@@ -22,6 +22,7 @@ export class WordDropController {
         this.category = 'country'; // 'country' | 'capital'
         this.speed = 'normal';
         this.roundTransitionTimeout = null;
+        this.revealStartTimeout = null;
 
         this.bindEvents();
     }
@@ -41,7 +42,7 @@ export class WordDropController {
         // Keyboard shortcut: Space to guess
         this._keyHandler = (e) => {
             if (!this.isActive) return;
-            if (e.code === 'Space' && !this.view.inputContainer.hidden === true && !this.view.guessButton.hidden) {
+            if (e.code === 'Space' && this.view.inputContainer.hidden && !this.view.guessButton.hidden) {
                 e.preventDefault();
                 this.handleGuessPressed();
             }
@@ -50,21 +51,34 @@ export class WordDropController {
     }
 
     /**
+     * Clears all pending timeouts and intervals for the current round.
+     */
+    clearPendingTimers() {
+        this.service.stopRevealing();
+        if (this.roundTransitionTimeout) {
+            clearTimeout(this.roundTransitionTimeout);
+            this.roundTransitionTimeout = null;
+        }
+        if (this.revealStartTimeout) {
+            clearTimeout(this.revealStartTimeout);
+            this.revealStartTimeout = null;
+        }
+    }
+
+    /**
      * Starts a Word Drop game session.
      * @param {object} options - { countries, survival, showFlag, category, speed, difficulty }
      */
     start(options = {}) {
+        // Clean up any previous game state
+        this.clearPendingTimers();
+
         this.countries = options.countries || [];
         this.isSurvivalMode = options.survival !== false;
         this.showFlag = options.showFlag !== false;
         this.category = options.category || 'country';
         this.speed = options.speed || 'normal';
         this.difficulty = options.difficulty || 'easy';
-
-        // Hard mode: reduce time per letter by 20% for extra challenge
-        if (this.difficulty === 'hard' && this.speed === 'normal') {
-            this.speed = 'normal'; // keep as-is, the service handles timing
-        }
 
         if (this.countries.length === 0) return;
 
@@ -90,6 +104,9 @@ export class WordDropController {
      * Starts a new round with the current country.
      */
     startRound() {
+        // Always clear previous timers before starting a new round
+        this.clearPendingTimers();
+
         if (this.currentIndex >= this.countries.length) {
             this.endGame();
             return;
@@ -104,8 +121,11 @@ export class WordDropController {
         this.view.setupWord(round.word, this.showFlag, country.flagUrl);
         
         // Small delay before starting reveal for visual readiness
-        setTimeout(() => {
-            if (this.isActive) this.service.startRevealing();
+        this.revealStartTimeout = setTimeout(() => {
+            this.revealStartTimeout = null;
+            if (this.isActive && this.service.currentRound && !this.service.currentRound.answered) {
+                this.service.startRevealing();
+            }
         }, 600);
     }
 
@@ -115,6 +135,12 @@ export class WordDropController {
     handleGuessPressed() {
         if (!this.isActive || !this.service.currentRound) return;
         if (this.service.currentRound.answered) return;
+
+        // Cancel the reveal start timeout if it hasn't fired yet
+        if (this.revealStartTimeout) {
+            clearTimeout(this.revealStartTimeout);
+            this.revealStartTimeout = null;
+        }
 
         this.service.freezeRound();
         this.view.showInput();
@@ -156,7 +182,10 @@ export class WordDropController {
 
         // Move to next round
         this.currentIndex++;
-        this.roundTransitionTimeout = setTimeout(() => this.startRound(), 1800);
+        this.roundTransitionTimeout = setTimeout(() => {
+            this.roundTransitionTimeout = null;
+            this.startRound();
+        }, 1800);
     }
 
     /**
@@ -182,7 +211,10 @@ export class WordDropController {
 
         // Move to next round
         this.currentIndex++;
-        this.roundTransitionTimeout = setTimeout(() => this.startRound(), 2200);
+        this.roundTransitionTimeout = setTimeout(() => {
+            this.roundTransitionTimeout = null;
+            this.startRound();
+        }, 2200);
     }
 
     /**
@@ -190,12 +222,7 @@ export class WordDropController {
      */
     endGame() {
         this.isActive = false;
-        this.service.reset();
-
-        if (this.roundTransitionTimeout) {
-            clearTimeout(this.roundTransitionTimeout);
-            this.roundTransitionTimeout = null;
-        }
+        this.clearPendingTimers();
 
         // Record game in stats
         if (this.statsService) {
@@ -280,11 +307,7 @@ export class WordDropController {
      */
     stop() {
         this.isActive = false;
-        this.service.reset();
-        if (this.roundTransitionTimeout) {
-            clearTimeout(this.roundTransitionTimeout);
-            this.roundTransitionTimeout = null;
-        }
+        this.clearPendingTimers();
         this.view.hide();
         this.view.reset();
     }
@@ -304,6 +327,6 @@ export class WordDropController {
      */
     destroy() {
         document.removeEventListener('keydown', this._keyHandler);
-        this.service.reset();
+        this.clearPendingTimers();
     }
 }

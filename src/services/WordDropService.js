@@ -71,6 +71,9 @@ export class WordDropService {
     startRevealing() {
         if (!this.currentRound) return;
 
+        // Always clear any existing interval to prevent stacking
+        this.stopRevealing();
+
         this.revealInterval = setInterval(() => {
             if (!this.currentRound || this.currentRound.answered) {
                 this.stopRevealing();
