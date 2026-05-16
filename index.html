@@ -10,7 +10,7 @@
     <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;450;500;600;700&display=swap">
     <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body class="landing-mode">
@@ -205,12 +205,24 @@
             <div class="header-top">
                 <h1>Flag Quiz</h1>
                 <div class="header-controls">
+                    <button id="skipButton" class="game-btn game-btn--skip" hidden aria-label="Saltar bandera">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                        <span>Saltar</span>
+                    </button>
+                    <button id="endGameButton" class="game-btn game-btn--end" hidden aria-label="Finalizar juego">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+                        <span>Finalizar</span>
+                    </button>
                     <button id="startButton">Start Game</button>
                 </div>
             </div>
         </div>
         
         <div class="container">
+            <div id="gameHint" class="game-hint" hidden>
+                <span class="game-hint__icon">👆</span>
+                <span class="game-hint__text">Toca la bandera para revelar el país</span>
+            </div>
             <img id="flagImage" class="flag" src="https://flagcdn.com/un.svg" alt="Country Flag">
             <p id="countryInfo" hidden>Country Name</p>
             <p id="capitalInfo">Capital Name</p>

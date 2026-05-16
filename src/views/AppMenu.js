@@ -54,7 +54,10 @@ const MODAL_TEMPLATES = {
                     <tr><td><span class="key">R</span></td><td>Punto para el equipo rojo</td></tr>
                     <tr><td><span class="key">G</span></td><td>Punto para el equipo verde</td></tr>
                     <tr><td><span class="key">D</span></td><td>Empate (Draw)</td></tr>
-                    <tr><td><span class="key">Click</span></td><td>Sobre la bandera revela el país antes del tiempo</td></tr>
+                    <tr><td><span class="key">S</span></td><td>Saltar bandera actual</td></tr>
+                    <tr><td><span class="key">Space</span></td><td>Revelar respuesta</td></tr>
+                    <tr><td><span class="key">Esc</span></td><td>Finalizar juego</td></tr>
+                    <tr><td><span class="key">Click</span></td><td>Sobre la bandera revela el país</td></tr>
                 </tbody>
             </table>
         `

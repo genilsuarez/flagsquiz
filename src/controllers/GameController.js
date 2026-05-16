@@ -37,6 +37,16 @@ export class GameController {
         // Start/End game button
         this.view.elements.startButton.onclick = () => this.toggleGameState();
         
+        // End game button (visible during game)
+        if (this.view.elements.endGameButton) {
+            this.view.elements.endGameButton.onclick = () => this.endGame();
+        }
+        
+        // Skip button
+        if (this.view.elements.skipButton) {
+            this.view.elements.skipButton.onclick = () => this.skipCurrentFlag();
+        }
+        
         // Filter change listeners
         this.view.elements.continentFilter.onchange = () => this.updateMaxCountriesLimit();
         this.view.elements.sovereignFilter.onchange = () => this.updateMaxCountriesLimit();
@@ -280,6 +290,17 @@ export class GameController {
         }
     }
 
+    skipCurrentFlag() {
+        if (!this.gameState.isActive) return;
+        
+        // Reveal the answer briefly, then move on (counts as draw)
+        if (!this.countryInfoRevealed) {
+            this.revealCountryInfo();
+        }
+        // Score as draw and advance
+        this.handleTeamScore('blue');
+    }
+
     handleKeyPress(event) {
         if (!this.gameState.isActive) return;
         
@@ -289,6 +310,25 @@ export class GameController {
             'd': 'blue',
             'y': 'yellow'
         };
+        
+        // Skip with 'S' key
+        if (event.key.toLowerCase() === 's') {
+            this.skipCurrentFlag();
+            return;
+        }
+        
+        // Escape to end game
+        if (event.key === 'Escape') {
+            this.endGame();
+            return;
+        }
+        
+        // Space to reveal
+        if (event.key === ' ') {
+            event.preventDefault();
+            this.handleRevealAction();
+            return;
+        }
         
         const teamColor = keyMap[event.key.toLowerCase()];
         if (teamColor) {

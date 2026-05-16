@@ -18,6 +18,9 @@ export class GameView {
             sovereignFilter: document.getElementById('sovereignFilter'),
             gameModeFilter: document.getElementById('gameModeFilter'),
             startButton: this.createStartButton(),
+            endGameButton: document.getElementById('endGameButton'),
+            skipButton: document.getElementById('skipButton'),
+            gameHint: document.getElementById('gameHint'),
             teamsContainer: this.createTeamsContainer(),
             maxCountriesInput: this.createMaxCountriesInput(),
             practiceModeCheckbox: this.createPracticeModeCheckbox(),
@@ -193,6 +196,11 @@ export class GameView {
                 this.elements.countryInfo.textContent = country.displayName;
                 this.elements.countryInfo.hidden = false;
             }
+            
+            // Show hint for new flag
+            if (this.elements.gameHint && this.gameState?.isActive) {
+                this.elements.gameHint.hidden = false;
+            }
         }
     }
 
@@ -205,6 +213,19 @@ export class GameView {
 
     updateStartButton(isGameActive) {
         this.elements.startButton.textContent = isGameActive ? 'End Game' : 'Start Game';
+        this.elements.startButton.hidden = isGameActive;
+        
+        // Show/hide game action buttons
+        if (this.elements.endGameButton) {
+            this.elements.endGameButton.hidden = !isGameActive;
+        }
+        if (this.elements.skipButton) {
+            this.elements.skipButton.hidden = !isGameActive;
+        }
+        // Show hint on game start
+        if (this.elements.gameHint) {
+            this.elements.gameHint.hidden = !isGameActive;
+        }
     }
 
     setFiltersEnabled(enabled) {
@@ -316,6 +337,10 @@ export class GameView {
             }
             this.elements.countryInfo.hidden = false;
         }
+        // Hide hint once answer is revealed
+        if (this.elements.gameHint) {
+            this.elements.gameHint.hidden = true;
+        }
     }
 
     getCurrentCountry() {
@@ -328,6 +353,10 @@ export class GameView {
 
     hideCountryInfo() {
         this.elements.countryInfo.hidden = true;
+        // Show hint again for next flag
+        if (this.elements.gameHint && this.gameState?.isActive) {
+            this.elements.gameHint.hidden = false;
+        }
     }
 
     clearCountryInfo() {
@@ -409,6 +438,10 @@ export class GameView {
     showCapitalInfo() {
         this.elements.capitalInfo.style.opacity = '1';
         this.elements.capitalInfo.style.visibility = 'visible';
+        // Hide hint once answer is revealed
+        if (this.elements.gameHint) {
+            this.elements.gameHint.hidden = true;
+        }
     }
 
     hideCapitalInfo() {
