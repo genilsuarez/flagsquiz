@@ -101,8 +101,8 @@ body {
 
 /* HEADER — Compact, functional */
 .game-header {
-    padding: var(--space-lg) var(--space-xl);
-    border-bottom: 2px solid var(--soft-sand);
+    padding: var(--space-md) var(--space-xl);
+    border-bottom: 1px solid var(--soft-sand);
     background: var(--warm-white);
 }
 
@@ -211,15 +211,15 @@ body {
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-    margin-bottom: var(--space-md);
+    padding: 6px var(--space-md);
+    margin-bottom: var(--space-sm);
     border-radius: var(--radius-pill);
-    background: var(--soft-sand);
+    background: transparent;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 500;
     color: var(--stone);
-    animation: hintPulse 2s ease-in-out infinite;
+    animation: hintPulse 2.5s ease-in-out infinite;
 }
 
 .game-hint[hidden] {
@@ -258,52 +258,66 @@ body {
 
 /* CONTAINER — Main content */
 .container {
-    padding: var(--space-xl) var(--space-lg) var(--space-lg);
+    padding: var(--space-lg) var(--space-lg) var(--space-lg);
     text-align: center;
 }
 
 /* FLAG — Hero image, clean presentation */
 .flag {
     width: 100%;
-    max-width: 320px;
-    height: 170px;
+    max-width: 340px;
+    height: 190px;
     object-fit: contain;
     margin: 0 auto var(--space-lg);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-medium);
-    border: 2px solid var(--stone);
-    background: var(--cream-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px rgba(28, 25, 23, 0.10), 0 2px 6px rgba(28, 25, 23, 0.06);
+    border: 2.5px solid var(--stone);
+    background: var(--warm-white);
     transition: all var(--duration-moderate) var(--ease-gentle);
     cursor: pointer;
     display: block;
 }
 
 .flag:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-lifted);
-    border-color: var(--warm-gray);
+    transform: scale(1.03);
+    box-shadow: 0 10px 32px rgba(28, 25, 23, 0.14), 0 4px 12px rgba(28, 25, 23, 0.08);
+    border-color: var(--charcoal);
+}
+
+.flag:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(28, 25, 23, 0.08);
+    transition-duration: 80ms;
 }
 
 /* COUNTRY INFO — Display typography */
 #countryInfo {
     margin: var(--space-md) 0;
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 400;
-    color: var(--terracotta);
+    color: var(--ink);
     letter-spacing: -0.01em;
     line-height: 1.2;
     min-height: 1.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--soft-sand);
+    transition: all var(--duration-moderate) var(--ease-gentle);
+}
+
+#countryInfo[hidden] {
+    display: none;
 }
 
 #capitalInfo {
     margin: var(--space-xs) 0 var(--space-lg);
     font-family: var(--font-body);
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 500;
     font-style: italic;
     color: var(--ocean);
     min-height: 1.4rem;
@@ -335,13 +349,13 @@ body {
     font-size: 0.72rem;
     cursor: pointer;
     transition: all var(--duration-quick) var(--ease-gentle);
-    border: 2px solid;
+    border: 2.5px solid;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--space-xs);
-    min-height: 72px;
+    min-height: 80px;
     user-select: none;
     position: relative;
 }
@@ -370,8 +384,9 @@ body {
 }
 
 #redCounter:active, #blueCounter:active, #greenCounter:active {
-    transform: translateY(0);
+    transform: translateY(1px) scale(0.97);
     box-shadow: none;
+    transition-duration: 60ms;
 }
 
 #redCounter span:first-child,
@@ -715,17 +730,17 @@ body {
     display: none;
     margin-bottom: var(--space-md);
     text-align: center;
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-pill);
     background: var(--soft-sand);
     border: 1px solid var(--warm-gray);
 }
 
 .progress-text {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--charcoal);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -737,7 +752,7 @@ body {
     background: var(--warm-gray);
     border-radius: var(--radius-pill);
     overflow: hidden;
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
 }
 
 .progress-fill {
@@ -752,12 +767,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--space-lg);
+    gap: var(--space-md);
 }
 
 .timer {
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--charcoal);
     font-variant-numeric: tabular-nums;
@@ -765,14 +780,14 @@ body {
 
 .countdown-timer {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 400;
     color: var(--terracotta);
     background: var(--warm-white);
     border: 2px solid var(--terracotta);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1704,9 +1719,9 @@ body.landing-mode .landing-hero {
     height: 110px;
     object-fit: contain;
     border-radius: var(--radius-md);
-    border: 2px solid var(--soft-sand);
-    box-shadow: var(--shadow-soft);
-    background: var(--cream-bg);
+    border: 2.5px solid rgba(28, 25, 23, 0.15);
+    box-shadow: 0 4px 12px rgba(28, 25, 23, 0.08);
+    background: var(--warm-white);
 }
 
 .word-drop-grid {
@@ -1946,39 +1961,41 @@ body.landing-mode .landing-hero {
 /* RESPONSIVE */
 @media (max-width: 767px) {
     body {
-        padding: var(--space-sm);
+        padding: var(--space-xs);
     }
 
     .game-wrapper {
-        margin: var(--space-sm) auto;
+        margin: var(--space-xs) auto;
         border-radius: var(--radius-lg);
     }
 
     .game-header {
-        padding: var(--space-md) var(--space-lg);
+        padding: var(--space-sm) var(--space-md);
     }
 
     .game-header h1 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .container {
-        padding: var(--space-lg) var(--space-md) var(--space-md);
+        padding: var(--space-md) var(--space-sm) var(--space-sm);
     }
 
     .flag {
-        height: 140px;
-        max-width: 280px;
+        height: 170px;
+        max-width: 300px;
         margin-bottom: var(--space-md);
     }
 
     #countryInfo {
         font-size: 1.2rem;
         margin: var(--space-sm) 0;
+        padding: var(--space-xs) var(--space-sm);
     }
 
     #capitalInfo {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
+        margin-bottom: var(--space-md);
     }
 
     #teamsContainer {
@@ -1987,14 +2004,20 @@ body.landing-mode .landing-hero {
     }
 
     #redCounter, #blueCounter, #greenCounter {
-        padding: var(--space-sm);
-        min-height: 62px;
+        padding: var(--space-sm) var(--space-xs);
+        min-height: 70px;
+        border-radius: var(--radius-md);
     }
 
     #redCounter span:last-child,
     #blueCounter span:last-child,
     #greenCounter span:last-child {
         font-size: 1.5rem;
+    }
+
+    .progress-container {
+        padding: var(--space-xs) var(--space-sm);
+        margin-bottom: var(--space-sm);
     }
 
     .landing-nav {
