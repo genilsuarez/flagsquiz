@@ -266,7 +266,7 @@ body {
 .flag {
     width: 100%;
     max-width: 340px;
-    max-height: 190px;
+    height: 190px;
     object-fit: contain;
     margin: 0 auto var(--space-lg);
     border-radius: var(--radius-md);
@@ -298,7 +298,7 @@ body {
     color: var(--ink);
     letter-spacing: -0.01em;
     line-height: 1.2;
-    min-height: 1.6rem;
+    min-height: 2.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -306,10 +306,11 @@ body {
     border-radius: var(--radius-md);
     background: var(--soft-sand);
     transition: all var(--duration-moderate) var(--ease-gentle);
+    visibility: visible;
 }
 
 #countryInfo[hidden] {
-    display: none;
+    visibility: hidden;
 }
 
 #capitalInfo {
@@ -1981,6 +1982,7 @@ body.landing-mode .landing-hero {
     }
 
     .flag {
+        height: 160px;
         max-width: 300px;
         margin-bottom: var(--space-md);
     }
