@@ -266,13 +266,13 @@ body {
 .flag {
     width: 100%;
     max-width: 340px;
-    height: 190px;
+    max-height: 190px;
     object-fit: contain;
     margin: 0 auto var(--space-lg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 20px rgba(28, 25, 23, 0.10), 0 2px 6px rgba(28, 25, 23, 0.06);
-    border: 2.5px solid var(--stone);
-    background: var(--warm-white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px var(--stone), 0 6px 20px rgba(28, 25, 23, 0.10), 0 2px 6px rgba(28, 25, 23, 0.06);
+    border: none;
+    background: transparent;
     transition: all var(--duration-moderate) var(--ease-gentle);
     cursor: pointer;
     display: block;
@@ -280,13 +280,12 @@ body {
 
 .flag:hover {
     transform: scale(1.03);
-    box-shadow: 0 10px 32px rgba(28, 25, 23, 0.14), 0 4px 12px rgba(28, 25, 23, 0.08);
-    border-color: var(--charcoal);
+    box-shadow: 0 0 0 3px var(--charcoal), 0 10px 32px rgba(28, 25, 23, 0.14), 0 4px 12px rgba(28, 25, 23, 0.08);
 }
 
 .flag:active {
     transform: scale(0.98);
-    box-shadow: 0 2px 8px rgba(28, 25, 23, 0.08);
+    box-shadow: 0 0 0 3px var(--stone), 0 2px 8px rgba(28, 25, 23, 0.08);
     transition-duration: 80ms;
 }
 
@@ -1982,7 +1981,6 @@ body.landing-mode .landing-hero {
     }
 
     .flag {
-        height: 170px;
         max-width: 300px;
         margin-bottom: var(--space-md);
     }
