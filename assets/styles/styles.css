@@ -305,12 +305,12 @@ body {
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--radius-md);
     background: var(--soft-sand);
-    transition: all var(--duration-moderate) var(--ease-gentle);
-    visibility: visible;
+    transition: opacity var(--duration-moderate) var(--ease-gentle);
 }
 
-#countryInfo[hidden] {
-    visibility: hidden;
+#countryInfo.hidden-keep-space {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #capitalInfo {

@@ -186,7 +186,7 @@ export class GameView {
 
     updateFlagDisplay(country) {
         if (country) {
-            this.elements.countryInfo.hidden = true;
+            this.elements.countryInfo.classList.add('hidden-keep-space');
             this.elements.countryInfo.textContent = '';
             
             // Swap flag immediately — CSS handles the crossfade
@@ -194,7 +194,7 @@ export class GameView {
             
             if (this.gameState && this.gameState.gameMode === 'capitals') {
                 this.elements.countryInfo.textContent = country.displayName;
-                this.elements.countryInfo.hidden = false;
+                this.elements.countryInfo.classList.remove('hidden-keep-space');
             }
             
             // Show hint for new flag
@@ -335,7 +335,7 @@ export class GameView {
             if (currentCountry) {
                 this.elements.countryInfo.textContent = currentCountry.displayName;
             }
-            this.elements.countryInfo.hidden = false;
+            this.elements.countryInfo.classList.remove('hidden-keep-space');
         }
         // Hide hint once answer is revealed
         if (this.elements.gameHint) {
@@ -352,7 +352,7 @@ export class GameView {
     }
 
     hideCountryInfo() {
-        this.elements.countryInfo.hidden = true;
+        this.elements.countryInfo.classList.add('hidden-keep-space');
         // Show hint again for next flag
         if (this.elements.gameHint && this.gameState?.isActive) {
             this.elements.gameHint.hidden = false;
@@ -360,8 +360,8 @@ export class GameView {
     }
 
     clearCountryInfo() {
-        this.elements.countryInfo.textContent = 'Country Name';
-        this.elements.countryInfo.hidden = true;
+        this.elements.countryInfo.textContent = '';
+        this.elements.countryInfo.classList.add('hidden-keep-space');
     }
 
     updateProgress(current, total) {
